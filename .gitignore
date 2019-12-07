@@ -1,3 +1,4 @@
+sslcerts/*pem
 # Logs
 logs
 *.log
