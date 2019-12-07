@@ -1,1 +1,69 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
+  <meta charset=ibm437>
+  <meta name=theme-color content=black>
+  <meta name=viewport content=width=device-width,initial-scale=1.0>
+  <style>
+    @font-face {
+      font-family: "ascii";
+      unicode-range: U+0000-U+00FF;
+      src: url("/px437/Px437_IBM_BIOS.ttf");
+      src: url("/px437/Px437_ATI_8x16.ttf");
+      src: url("/px437/Px437_TandyOld_225.ttf");
+      src: url("/px437/Px437_IBM_3270pc.ttf");
+    }
+
+    :root, body, .screen {
+      font-family: ascii, monospace;
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      font-size: 23px;
+      word-break: break-all;
+      background: black;
+      color: aqua;
+    }
+
+    .screen {
+      pointer-events: none;
+      user-select: none;
+    }
+  </style>
+  <main id=view class=screen></main>
+  <script>
+    const s = Math.ceil((innerWidth/23)*(innerHeight/23)*1.618);
+    const add = Math.ceil(Math.log(s))**2;
+    const B = new Uint8Array(s);
+
+    view.innerText = Random(s);
+
+    self.onmousedown = () => self.down = true;
+    self.ontouchstart = () => self.down = true;
+    self.onmouseup = () => self.down = false;
+    self.ontouchend = () => self.down = false;
+
+    self.NR = () => !self.down && NextRandom(add);
+
+    setInterval(() => self.NR(), 7);
+
+    function NextRandom(len) {
+      const A = new Uint8Array(len);
+      crypto.getRandomValues(A);
+      const x = Array.from(B);
+      let i = A.length;
+      while(i--) {
+        x.shift(); 
+      }
+      B.set(x, 0);
+      B.set(A, B.length - A.length);
+      view.innerText = String.fromCharCode(...B);
+    }
+
+    function Random(len) {
+      crypto.getRandomValues(B); 
+      return String.fromCharCode(...B);
+    }
+  </script>
