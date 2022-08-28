@@ -20,7 +20,7 @@ Thank god for crazy people because this [Old-school Font resource](https://int10
 
 But my first trial of the new font was blaargh lost. I tried a simple: 
 
-```
+```html
 @font-face {
   font-family: DOS;
   src: url("./WebPlus_IBM_VGA_9x14.woff");
@@ -44,13 +44,13 @@ Another lazy ugly tiresome avoidance moment lay in wait for me here. I didn't wa
 
 Anyway, I pulled quick:
 
-```
+```js
 Array.from(charset437.querySelectorAll('strong:last-of-type')).map(e => e.innerHTML)
 ```
 
 extracted the JSON from Chrome DevTools, pasted it into my vim editor window in iTerm2 conjured with a hotkey (⌘+`), and turned my simple innocent little loop above into the momentous:
 
-```
+```js
  for( let i = 0; i < 256; i++ ) {
     p.innerText += String.fromCharCode(M[i]);
   }
